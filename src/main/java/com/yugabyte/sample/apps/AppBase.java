@@ -68,6 +68,7 @@ import com.yugabyte.sample.common.SimpleLoadGenerator;
 import com.yugabyte.sample.common.SimpleLoadGenerator.Key;
 import com.yugabyte.sample.common.metrics.MetricsTracker;
 import com.yugabyte.sample.common.metrics.MetricsTracker.MetricName;
+import com.yugabyte.sample.apps.CustomRetryPolicy;
 
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
@@ -340,7 +341,7 @@ public abstract class AppBase implements MetricsTracker.StatusMessageAppender {
                  .withQueryOptions(new QueryOptions()
                      .setDefaultIdempotence(true)
                      .setConsistencyLevel(ConsistencyLevel.QUORUM))
-                 .withRetryPolicy(new LoggingRetryPolicy(DefaultRetryPolicy.INSTANCE))
+                 .withRetryPolicy(new LoggingRetryPolicy(CustomRetryPolicy.INSTANCE))
                  .build();
       LOG.debug("Connected to cluster: " + cassandra_cluster.getClusterName());
     }
